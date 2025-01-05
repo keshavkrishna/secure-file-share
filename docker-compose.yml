@@ -3,8 +3,6 @@ services:
     build:
       context: ./server
     container_name: django-backend
-    env_file:
-      - .env
     volumes:
       - ./server:/app
     ports:
@@ -17,8 +15,6 @@ services:
     build:
       context: ./client
     container_name: nextjs-frontend
-    env_file:
-      - .env
     volumes:
       - ./client:/app
     ports:
