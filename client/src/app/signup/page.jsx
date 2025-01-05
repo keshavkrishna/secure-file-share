@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { storeAuthTokens, storeUserDetails} from "../lib/auth"
 import { registerUser} from "../lib/api"
 
 export default function SignUp() {
