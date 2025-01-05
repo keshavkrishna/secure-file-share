@@ -1,0 +1,9 @@
+.env
+__pycache__
+server/venv
+.vscode
+*.crt
+*.key
+*.pem
+server/media/encrypted_files/*
+
