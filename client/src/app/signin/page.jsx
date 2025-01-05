@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { clearAuthData, storeAuthTokens, storeUserDetails } from "../lib/auth";
 import { loginUser } from "../lib/api";
 
 export default function SignIn() {
@@ -15,7 +14,9 @@ export default function SignIn() {
 
   // Clear any existing authentication data on mount
   useEffect(() => {
-    clearAuthData();
+    localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+  localStorage.removeItem('userDetails');
   }, []);
 
   const handleSubmit = async (e) => {

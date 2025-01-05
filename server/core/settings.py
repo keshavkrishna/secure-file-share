@@ -35,12 +35,14 @@ SECRET_KEY = 'django-insecure-1p@8#t9zi2jidi=5@o^ta$#rj82em!!k*of9$87$q2z8l4cs0o
 DEBUG = True
 
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", 'http://localhost:3000']
+ALLOWED_HOSTS = ["127.0.0.1", '0.0.0.0', "localhost"]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    "http://localhost:3001","http://localhost:3000",
 ]
 
+# Set cross-origin policy for JWT cookies
+CORS_ALLOW_CREDENTIALS = True  # Allow cookies to be sent with requests
 
 # Application definition
 
@@ -200,7 +202,7 @@ AUTHENTICATION_BACKENDS = [
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "users.middlewares.CookieJWTAuthentication",
+        # "users.middlewares.CookieJWTAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
 }
@@ -228,11 +230,7 @@ SESSION_COOKIE_HTTPONLY = True  # Prevents JavaScript access to cookies
 CSRF_COOKIE_SECURE = True  # Ensures CSRF cookie is only sent over HTTPS
 CSRF_COOKIE_HTTPONLY = True
 
-# Set cross-origin policy for JWT cookies
-CORS_ALLOW_CREDENTIALS = True  # Allow cookies to be sent with requests
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
+
 
 # Use secure connection settings
 SECURE_SSL_REDIRECT = True

@@ -25,19 +25,14 @@ export default function SignUp() {
 
   const handleSignupResponse = (response) => {
     try {
-      // Store tokens
-      storeAuthTokens({
-        access: response.data.access,
-        refresh: response.data.refresh
-      });
+    // Store auth tokens individually
+    localStorage.setItem('access_token', response.data.access);
+    localStorage.setItem('refresh_token', response.data.refresh);
 
-      // Store user details
-      storeUserDetails({
-        email: response.data.user_details.email,
-        role: response.data.user_details.role,
-        username: response.data.user_details.username,
-        userId: response.data.user_id
-      });
+    // Store user details individually
+    localStorage.setItem('role', response.data.user_details.role);
+    localStorage.setItem('username', response.data.user_details.username);
+    localStorage.setItem('userId', response.data.user_id);
 
       // Redirect to dashboard
       router.push('/mfa-setup');

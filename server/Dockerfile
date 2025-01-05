@@ -26,4 +26,4 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./ssl/server.key
 EXPOSE 8000
 
 # Run Django development server
-CMD ["python", "manage.py", "runserver_plus", "0.0.0.0:8000", "--cert-file", "ssl/server.crt", "--key-file", "ssl/server.key"]
+CMD ["python", "manage.py", "runserver_plus", "0.0.0.0:8000", "--cert-file", "./ssl/server.crt", "--key-file", "./ssl/server.key"]
