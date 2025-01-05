@@ -7,7 +7,7 @@ services:
     container_name: django-backend
     volumes:
       - ./server:/app
-      - ./server/db.sqlite3:/app/db.sqlite3
+      - ./server/ssl:/app/ssl  # Map the SSL directory
     ports:
       - "8000:8000"
     command: >

@@ -16,12 +16,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+
 # Copy the Django project files
 COPY . .
 
 # Generate SSL certificates
 RUN mkdir ./ssl
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./ssl/server.key -out ./ssl/server.crt -subj "/C=IN/ST=State/L=City/O=Organization/OU=Dev/CN=127.0.0.1"
+
+RUN python manage.py makemigrations
+RUN python manage.py migrate
+
 
 # Expose the port for Django
 EXPOSE 8000

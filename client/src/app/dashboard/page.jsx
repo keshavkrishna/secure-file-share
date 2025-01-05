@@ -139,17 +139,31 @@ export default function Dashboard() {
                   <div>
                     <p>
                       <strong>Shareable Link:</strong>{" "}
-                      <a
-                        href={file.shareable_link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {`http://localhost:3000/dashboard/file/link/{file.shareable_link}`}
-                      </a>
+                      {hasValidShareableLink(file) ? (
+                        <div>
+                          <p>
+                            <strong>Shareable Link:</strong>{" "}
+                            <a
+                              href={file.shareable_link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {file.shareable_link}
+                            </a>
+                          </p>
+                          <p>
+                            <strong>Expires At:</strong>{" "}
+                            {new Date(file.expires_at).toLocaleString()}
+                          </p>
+                        </div>
+                      ) : (
+                        <p className="text-red-600">No valid shareable link available</p>
+                      )}
                     </p>
                     <p>
                       <strong>Expires At:</strong>{" "}
-                      {new Date(file.expires_at).toLocaleString()}
+                      {hasValidShareableLink(file) ? (
+                      new Date(file.expires_at).toLocaleString()) :("") }
                     </p>
                   </div>
                 </div>

@@ -15,7 +15,7 @@ class Users(AbstractBaseUser, PermissionsMixin):
     role = models.CharField(
         max_length=20,
         choices=RoleChoices.choices(),
-        default=RoleChoices.GUEST.value
+        default=RoleChoices.REGULAR_USER.value
     )
     is_mfa_enabled = models.BooleanField(default=False)
     mfa_method = models.CharField(

@@ -111,11 +111,42 @@ class FileDownloadView(APIView):
             return JsonResponse({"error": str(e)}, status=400)
 
 class FileRenderView(FileDownloadView):
-    """
-    Inherits from FileDownloadView since the logic is identical
-    Only the frontend handling differs
-    """
-    pass
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, file_id):
+        try:
+            file = File.objects.get(id=file_id)
+
+            if file.owner != request.user and not file.accesses.filter(user=request.user).exists():
+                return JsonResponse({"error": "Access denied"}, status=403)
+
+            # Decrypt server key
+            decrypted_key = decrypt_with_private_key(file.server_key)
+
+            # Read and decrypt with AES
+            with open(file.encrypted_file.path, "rb") as encrypted_file:
+                server_encrypted_data = encrypted_file.read()
+                
+            # Server-side AES decryption
+            client_encrypted_data = aes_encryption.decrypt_file(server_encrypted_data)
+
+            content_type, _ = mimetypes.guess_type(file.name)
+            if not content_type:
+                content_type = 'application/octet-stream'
+
+            response_data = {
+                "encrypted_file": base64.b64encode(client_encrypted_data).decode("utf-8"),
+                "iv": base64.b64encode(file.iv).decode("utf-8"),
+                "client_key": base64.b64encode(decrypted_key).decode("utf-8"),
+                "original_name": file.name,
+                "media_type": content_type,
+            }
+            return JsonResponse(response_data, status=200)
+        except File.DoesNotExist:
+            return JsonResponse({"error": "File not found"}, status=404)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+
 
 # class FileUploadView(APIView):
 #     permission_classes = [IsAuthenticated, IsRegularUser]
