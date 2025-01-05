@@ -7,3 +7,4 @@ server/venv
 *.pem
 server/media/encrypted_files/*
 
+*.sqlite3
